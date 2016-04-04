@@ -1,0 +1,20 @@
+hsv=cv2.cvtColor(cv_image,cv2.COLOR_BGR2HSV)
+
+
+# define range of blue color in HSV
+            lower_blue = np.array([60,0,0],dtype=np.uint8)
+            upper_blue = np.array([255,255,255],dtype=np.uint8)
+        # Threshold the HSV image to get only blue colors
+            mask = cv2.inRange(hsv, lower_blue, upper_blue)
+        new_mask = mask.copy()
+        # Bitwise-AND mask and original image
+            res = cv2.bitwise_and(cv_image,cv_image, mask= mask)
+        #removing noise 
+        kernel = np.ones((12,12),np.uint8)
+        new_mask = cv2.morphologyEx(new_mask, cv2.MORPH_CLOSE, kernel)
+        new_mask = cv2.morphologyEx(new_mask, cv2.MORPH_OPEN, kernel)
+        cv2.imshow('cv_image',cv_image)
+            cv2.imshow('mask',mask)
+            cv2.imshow('res',res)
+        cv2.imshow("Image window", cv_image)
+        cv2.waitKey(3)
